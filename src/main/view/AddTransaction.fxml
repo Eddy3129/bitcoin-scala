@@ -9,13 +9,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="backgroundImage" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="407.0" prefWidth="607.0" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Transaction" textAlignment="CENTER">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label2" text="Add Transaction" textAlignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>
@@ -26,7 +25,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="600.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Sender Name:" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label4" text="Enter Sender Name:" />
                   <TextField promptText="Sender Name">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -34,12 +33,12 @@
                   </TextField>
                </children>
                <padding>
-                  <Insets left="180.0" />
+                  <Insets left="100.0" />
                </padding>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="600.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Receiver Name:" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label4" text="Enter Receiver Name:" />
                   <TextField promptText="Receiver Name">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -47,12 +46,15 @@
                   </TextField>
                </children>
                <padding>
-                  <Insets left="180.0" />
+                  <Insets left="100.0" />
                </padding>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="600.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount: " />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label4" text="Amount: ">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Text>
                   <TextField promptText=" Bitcoin">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -60,7 +62,7 @@
                   </TextField>
                </children>
                <padding>
-                  <Insets left="180.0" />
+                  <Insets left="100.0" />
                </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0">

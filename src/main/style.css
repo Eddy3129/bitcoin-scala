@@ -1,0 +1,63 @@
+.label1 {
+    -fx-font-size: 50px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.label2 {
+    -fx-font-size: 40px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.label3 {
+    -fx-font-size: 30px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.label4 {
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.label5 {
+    -fx-font-size: 10px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.backgroundImage {
+    -fx-background-color: #010101;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.custom-table {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #000000;
+    -fx-text-fill: white;
+}
+
+.custom-table .column-header {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+}
+
+.custom-table .table-cell {
+    -fx-background-color: #f0f0f0;
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+}
