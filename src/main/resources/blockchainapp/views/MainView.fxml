@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="blockchainapp.controllers.MainController">
+    <children>
+        <!-- Username Field and Create Account Button -->
+        <Label layoutX="20.0" layoutY="20.0" text="Username:" />
+        <TextField fx:id="usernameField" layoutX="100.0" layoutY="16.0" prefWidth="150.0" />
+        <Button fx:id="createAccountButton" layoutX="270.0" layoutY="16.0" text="Create Account" />
+
+        <!-- Transaction Section -->
+        <Label layoutX="20.0" layoutY="60.0" text="Sender:" />
+        <ComboBox fx:id="senderComboBox" layoutX="100.0" layoutY="56.0" prefWidth="150.0" />
+        <Label layoutX="270.0" layoutY="60.0" text="Recipient:" />
+        <ComboBox fx:id="recipientComboBox" layoutX="350.0" layoutY="56.0" prefWidth="150.0" />
+        <Label layoutX="520.0" layoutY="60.0" text="Amount:" />
+        <TextField fx:id="amountField" layoutX="580.0" layoutY="56.0" prefWidth="100.0" />
+        <Button fx:id="addButton" layoutX="700.0" layoutY="56.0" text="Add Transaction" />
+
+        <!-- Buttons -->
+        <Button fx:id="mineButton" layoutX="20.0" layoutY="100.0" text="Mine" />
+        <Button fx:id="simulateAttackButton" layoutX="100.0" layoutY="100.0" text="Simulate Attack" />
+        <Button fx:id="startMinerButton" layoutX="220.0" layoutY="100.0" text="Start New Miner" />
+
+        <!-- Status Label -->
+        <Label fx:id="statusLabel" layoutX="20.0" layoutY="140.0" text="Status: Idle" />
+
+        <!-- ListViews -->
+        <Label layoutX="20.0" layoutY="180.0" text="Mempool:" />
+        <ListView fx:id="mempoolListView" layoutX="20.0" layoutY="200.0" prefHeight="150.0" prefWidth="300.0" />
+
+        <Label layoutX="350.0" layoutY="180.0" text="Blockchain:" />
+        <ListView fx:id="blockchainListView" layoutX="350.0" layoutY="200.0" prefHeight="150.0" prefWidth="300.0" />
+
+        <Label layoutX="20.0" layoutY="380.0" text="Accounts:" />
+        <ListView fx:id="accountsListView" layoutX="20.0" layoutY="400.0" prefHeight="150.0" prefWidth="300.0" />
+
+        <Label layoutX="350.0" layoutY="380.0" text="Validation Logs:" />
+        <ListView fx:id="validationListView" layoutX="350.0" layoutY="400.0" prefHeight="150.0" prefWidth="300.0" />
+
+        <Label layoutX="700.0" layoutY="180.0" text="Mining Logs:" />
+        <ListView fx:id="miningListView" layoutX="700.0" layoutY="200.0" prefHeight="350.0" prefWidth="250.0" />
+    </children>
+</AnchorPane>
