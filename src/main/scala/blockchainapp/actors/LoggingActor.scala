@@ -3,7 +3,7 @@
 package blockchainapp.actors
 
 import akka.actor.{Actor, Props}
-import Messages._
+import Messages.{ValidationLogUpdate, MiningLogUpdate, GetLogs}
 
 class LoggingActor(logType: String) extends Actor {
   private var logs: List[String] = List()
@@ -11,22 +11,13 @@ class LoggingActor(logType: String) extends Actor {
   def receive: Receive = {
     case log: String =>
       logs = logs :+ log
-      println(s"LoggingActor [$logType]: $log")
-      // Publish logs based on type
       logType match {
-        case "validation" =>
-          if (log.startsWith("Accepted Transaction") || log.startsWith("Rejected Transaction")) {
-            context.system.eventStream.publish(ValidationLogUpdate(log))
-          }
-        case "mining" =>
-          context.system.eventStream.publish(MiningLogUpdate(log))
-        case _ =>
-        // Handle other log types if necessary
+        case "validation" => context.system.eventStream.publish(ValidationLogUpdate(log))
+        case "mining" => context.system.eventStream.publish(MiningLogUpdate(log))
+        case _ => // Do nothing
       }
-
     case GetLogs =>
       sender() ! logs
-
     case _ =>
       println(s"LoggingActor [$logType] received unknown message.")
   }

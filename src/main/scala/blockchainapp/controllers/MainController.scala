@@ -2,9 +2,12 @@
 
 package blockchainapp.controllers
 
+import java.io.File
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
+import akka.cluster.pubsub.DistributedPubSub
+import akka.cluster.pubsub.DistributedPubSubMediator.{Publish, Subscribe}
 import blockchainapp.ActorSystemProvider
 import blockchainapp.actors._
 import blockchainapp.actors.Messages._
@@ -20,8 +23,6 @@ import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
-
-// Import the global ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @sfxml
@@ -90,23 +91,16 @@ class MainController(
 
   // Bind the ObservableBuffers to the ListViews
   validationListView.items = validationLogsBuffer
-  miningListView.items = ObservableBuffer[String]() // Initialize empty to avoid duplicate binding
   miningListView.items = miningLogsBuffer
 
   // Create an actor to handle incoming messages (FrontendListener)
   private val frontendListener: ActorRef = system.actorOf(Props(new Actor {
-    // Removed unnecessary imports related to DistributedPubSubMediator
-
     override def preStart(): Unit = {
-      // Use Messages.Subscribe to avoid confusion with mediator's Subscribe
-      blockchainPublisher ! Messages.Subscribe(self)
+      // Subscribe to BlockchainPublisher and eventStream for updates
+      blockchainPublisher ! BlockchainSubscribe(self)
       context.system.eventStream.subscribe(self, classOf[ValidationLogUpdate])
       context.system.eventStream.subscribe(self, classOf[MiningLogUpdate])
       context.system.eventStream.subscribe(self, classOf[BlockchainUpdated])
-
-      // Removed DistributedPubSub subscription to eliminate duplicate block entries
-      // val mediator = DistributedPubSub(context.system).mediator
-      // mediator ! Subscribe("blocks", self)
 
       println("FrontendListener subscribed to blockchainPublisher and eventStream.")
     }
@@ -117,14 +111,6 @@ class MainController(
     }
 
     def receive: Receive = {
-      // Removed handling of ReceiveBlock to prevent duplicate entries
-      /*
-      case ReceiveBlock(block) =>
-        Platform.runLater {
-          blockchainListView.items = ObservableBuffer(blockchainListView.items.value :+ s"Block ${block.index} - Hash: ${block.currentHash.take(10)}...")
-        }
-      */
-
       case BlockchainUpdated(chain) =>
         Platform.runLater {
           blockchainListView.items = ObservableBuffer(chain.map { block =>
@@ -152,10 +138,10 @@ class MainController(
           miningLogsBuffer += log
         }
 
-      case "Block mined successfully." =>
+      case BlockMinedSuccessfully =>
         // Handle the successful mining completion
         miningLog ! "Block mined successfully."
-        // Re-enable mine button if it was disabled
+        // Re-enable the mine button if it was disabled
         Platform.runLater {
           mineButton.disable = false
           statusLabel.text = "Block mined successfully."
@@ -223,6 +209,9 @@ class MainController(
       currentValidatorIndex = (currentValidatorIndex + 1) % validatorActors.size
       statusLabel.text = s"Transaction sent for validation: $senderName → $recipientName : $$ $amount"
       amountField.text = ""
+
+      // Publish the transaction to the mempool so other nodes can receive it
+      blockchainActor ! PropagateTransaction(transaction)
     } else {
       showErrorDialog("Invalid Transaction", "Ensure sender, recipient, and valid amount are selected.")
     }
@@ -296,11 +285,46 @@ class MainController(
 
   // Start New Miner Button Action
   startMinerButton.onAction = handle {
-    val newMinerId = s"miner${miningActors.size + 1}"
-    val newMinerActor = system.actorOf(MiningActor.props(transactionManager, blockchainActor, difficulty, minerReward, newMinerId, miningLog), s"minerActor${miningActors.size + 1}")
-    miningActors = miningActors :+ newMinerActor
-    statusLabel.text = s"New miner '$newMinerId' started."
-    showInfoDialog("New Miner Started", s"Miner '$newMinerId' has been successfully started.")
+    val newNodePort = getAvailablePort()
+    val newNodeId = s"node$newNodePort"
+
+    // Path to the application's JAR file or classpath
+    val javaPath = System.getProperty("java.home") + "/bin/java"
+    val classpath = System.getProperty("java.class.path")
+    val mainClass = "blockchainapp.MainApp"
+
+    // Start a new JVM process for the new node with -Dport system property
+    val processBuilder = new java.lang.ProcessBuilder(
+      javaPath,
+      "-Dport=" + newNodePort,
+      "-cp",
+      classpath,
+      mainClass
+    )
+
+    processBuilder.directory(new File("."))
+    processBuilder.inheritIO()
+
+    try {
+      processBuilder.start()
+      Platform.runLater {
+        statusLabel.text = s"New node '$newNodeId' started on port $newNodePort."
+        showInfoDialog("New Node Started", s"Node '$newNodeId' has been successfully started on port $newNodePort.")
+      }
+    } catch {
+      case ex: Exception =>
+        Platform.runLater {
+          showErrorDialog("Node Startup Failed", ex.getMessage)
+        }
+    }
+  }
+
+  // Helper method to find an available port
+  private def getAvailablePort(): Int = {
+    val socket = new java.net.ServerSocket(0)
+    val port = socket.getLocalPort
+    socket.close()
+    port
   }
 
   // Helper to dynamically update button states

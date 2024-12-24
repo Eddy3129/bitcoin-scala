@@ -3,10 +3,9 @@
 package blockchainapp.actors
 
 import akka.actor.ActorRef
-import blockchainapp.models.{Block, Transaction}
+import blockchainapp.models.{Block, Transaction, Account}
 
 object Messages {
-
   // Messages for BlockchainActor
   case class MineBlock(transactions: List[Transaction], minerName: String)
   case object GetChain
@@ -40,10 +39,22 @@ object Messages {
   case object GetLogs
 
   // Messages for BlockchainPublisher
-  case class Subscribe(subscriber: ActorRef)
-  case class Unsubscribe(subscriber: ActorRef)
+  case class BlockchainSubscribe(subscriber: ActorRef)
+  case class BlockchainUnsubscribe(subscriber: ActorRef)
   case class BlockchainUpdated(chain: List[Block])
 
-  // Additional messages for Block propagation
-  // (Already included above)
+  // Messages for Distributed System
+  case class PropagateTransaction(tx: Transaction)
+  case class PropagateBlock(block: Block)
+  case class ValidateBlockRequest(block: Block)
+  case class ValidateBlockResponse(isValid: Boolean, reason: String)
+  case object ValidateLatestBlock
+  case class NetworkState(mempool: List[Transaction], chain: List[Block])
+  case object RequestNetworkState
+  case class NetworkStateResponse(state: NetworkState)
+  case class SyncRequest(fromBlock: Int)
+  case class SyncResponse(blocks: List[Block])
+
+  // Additional Messages
+  case object BlockMinedSuccessfully
 }

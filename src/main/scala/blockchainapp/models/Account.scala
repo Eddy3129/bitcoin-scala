@@ -2,4 +2,4 @@
 
 package blockchainapp.models
 
-case class Account(name: String, var balance: Double)
+case class Account(name: String, balance: Double)

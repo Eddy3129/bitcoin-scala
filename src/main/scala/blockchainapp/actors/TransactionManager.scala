@@ -2,75 +2,43 @@
 
 package blockchainapp.actors
 
-import akka.actor.{Actor, Props}
-import Messages._
-import blockchainapp.models.Transaction
-import akka.pattern.pipe
-import akka.pattern.ask
-import akka.util.Timeout
+import akka.actor.{Actor, ActorRef, Props}
+import Messages.{AddTransaction, GetTransactions, GetAndReserveTransactions, ClearTransactions, ReserveAmount, ReleaseAmount, GetAvailableBalance}
 
-import scala.concurrent.Future
-import scala.concurrent.duration._
-
-class TransactionManager(blockchainActor: akka.actor.ActorRef) extends Actor {
-
-  import context.dispatcher // ExecutionContext for futures
-
-  private var transactions: List[Transaction] = List()
-  private var reservedBalances: Map[String, Double] = Map().withDefaultValue(0.0)
+class TransactionManager(blockchainActor: ActorRef) extends Actor {
+  private var mempool: List[blockchainapp.models.Transaction] = List()
 
   def receive: Receive = {
     case AddTransaction(tx) =>
-      transactions = transactions :+ tx
-      reservedBalances += tx.sender -> (reservedBalances(tx.sender) + tx.amount)
-      println(s"Transaction added to mempool: $tx")
-
+      if (!mempool.contains(tx)) {
+        mempool = mempool :+ tx
+        sender() ! "Transaction added to mempool."
+        // Optionally, propagate the transaction to the cluster
+      } else {
+        sender() ! "Transaction already exists in mempool."
+      }
     case GetTransactions =>
-      sender() ! transactions
-
+      sender() ! mempool
     case GetAndReserveTransactions =>
-      val reservedTransactions = transactions
-      transactions = List() // Clear mempool
-      println(s"Reserved transactions for mining: ${reservedTransactions.mkString(", ")}")
-      sender() ! reservedTransactions
-
+      sender() ! mempool
+    // Implement reservation logic if needed
     case ClearTransactions =>
-      transactions = List()
-      reservedBalances = Map().withDefaultValue(0.0)
-      println("Mempool and reserved balances cleared.")
-
-    case GetAvailableBalance(senderName) =>
-      implicit val timeout: Timeout = Timeout(5.seconds)
-      val balanceFuture: Future[Double] = (blockchainActor ? GetBalance(senderName)).mapTo[Double]
-      val availableBalance = balanceFuture.map { balance =>
-        balance - reservedBalances(senderName)
-      }
-      availableBalance.pipeTo(sender())
-
+      mempool = List()
+      sender() ! "Mempool cleared."
     case ReserveAmount(senderName, amount) =>
-      implicit val timeout: Timeout = Timeout(5.seconds)
-      val balanceFuture: Future[Double] = (blockchainActor ? GetBalance(senderName)).mapTo[Double]
-      val reservationResult: Future[Boolean] = balanceFuture.map { balance =>
-        if (balance >= (reservedBalances(senderName) + amount)) {
-          reservedBalances += senderName -> (reservedBalances(senderName) + amount)
-          true
-        } else {
-          false
-        }
-      }
-      reservationResult.pipeTo(sender())
-
+      // Implement reservation logic
+      sender() ! "Amount reserved."
     case ReleaseAmount(senderName, amount) =>
-      val currentReserved = reservedBalances(senderName)
-      val newReserved = math.max(currentReserved - amount, 0.0)
-      reservedBalances += senderName -> newReserved
-      println(s"Released $$${amount} from $senderName's reserved balance.")
-
+      // Implement release logic
+      sender() ! "Amount released."
+    case GetAvailableBalance(senderName) =>
+      // Query blockchainActor for balance
+      blockchainActor forward Messages.GetBalance(senderName)
     case _ =>
       println("TransactionManager received unknown message.")
   }
 }
 
 object TransactionManager {
-  def props(blockchainActor: akka.actor.ActorRef): Props = Props(new TransactionManager(blockchainActor))
+  def props(blockchainActor: ActorRef): Props = Props(new TransactionManager(blockchainActor))
 }

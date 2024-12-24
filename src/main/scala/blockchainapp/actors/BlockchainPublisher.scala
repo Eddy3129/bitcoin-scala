@@ -3,17 +3,17 @@
 package blockchainapp.actors
 
 import akka.actor.{Actor, ActorRef, Props}
-import blockchainapp.actors.Messages.{BlockchainUpdated, Subscribe, Unsubscribe}
+import Messages.{BlockchainSubscribe, BlockchainUnsubscribe, BlockchainUpdated}
 
 class BlockchainPublisher extends Actor {
 
   private var subscribers: Set[ActorRef] = Set()
 
   def receive: Receive = {
-    case Subscribe(subscriber) =>
+    case BlockchainSubscribe(subscriber) =>
       subscribers += subscriber
       println(s"Subscriber added: $subscriber")
-    case Unsubscribe(subscriber) =>
+    case BlockchainUnsubscribe(subscriber) =>
       subscribers -= subscriber
       println(s"Subscriber removed: $subscriber")
     case BlockchainUpdated(chain) =>

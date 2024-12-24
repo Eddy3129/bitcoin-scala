@@ -3,15 +3,12 @@
 package blockchainapp.actors
 
 import akka.actor.{Actor, ActorRef, Props}
-import akka.event.Logging
-import blockchainapp.actors.Messages._
-import blockchainapp.models.{Block, Transaction}
+import Messages.{StartMining, MineBlock}
 import akka.pattern.ask
 import akka.util.Timeout
-
-import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.collection.mutable
+import scala.concurrent.Future
+import scala.util.{Success, Failure}
 
 class MiningActor(
                    transactionManager: ActorRef,
@@ -22,46 +19,33 @@ class MiningActor(
                    miningLog: ActorRef
                  ) extends Actor {
 
+  // Import the dispatcher for Futures
   implicit val timeout: Timeout = Timeout(5.seconds)
-  import context.dispatcher // ExecutionContext for futures
-
-  // Initialize Akka's built-in logger
-  val log = Logging(context.system, this)
+  implicit val ec = context.dispatcher
 
   def receive: Receive = {
     case StartMining =>
-      val transactionsFuture: Future[List[Transaction]] = (transactionManager ? GetAndReserveTransactions).mapTo[List[Transaction]]
+      miningLog ! s"MiningActor $minerName received StartMining"
 
-      transactionsFuture.map { transactions =>
-        log.info(s"MiningActor $minerName received transactions: ${transactions.mkString(", ")}")
-        if (transactions.nonEmpty) {
-          miningLog ! s"Mining started by $minerName with transactions: ${transactions.mkString(", ")}"
-          // Add coinbase transaction for miner reward
-          val minerRewardTx = Transaction("coinbase", minerName, minerReward)
-          val allTransactions = transactions :+ minerRewardTx
-          blockchainActor ! MineBlock(allTransactions, minerName)
-          // miningLog ! s"Mining completed by $minerName. Reward: $$${minerReward}"
-          // Release reserved balances for the processed transactions
-          transactions.foreach { tx =>
-            transactionManager ! ReleaseAmount(tx.sender, tx.amount)
+      // Use the ask pattern to request transactions from the TransactionManager
+      val transactionsFuture: Future[List[blockchainapp.models.Transaction]] =
+        (transactionManager ? Messages.GetAndReserveTransactions).mapTo[List[blockchainapp.models.Transaction]]
+
+      transactionsFuture.onComplete {
+        case Success(transactions) =>
+          if (transactions.nonEmpty) {
+            miningLog ! s"MiningActor $minerName started mining with transactions: ${transactions.mkString(", ")}"
+            // Send the MineBlock message to BlockchainActor
+            blockchainActor ! MineBlock(transactions, minerName)
+          } else {
+            miningLog ! s"MiningActor $minerName found no transactions to mine."
           }
-        } else {
-          miningLog ! s"$minerName status: Idle"
-        }
-      }.recover {
-        case ex =>
-          log.error(s"Mining failed for $minerName: ${ex.getMessage}")
-          miningLog ! s"Mining failed by $minerName: ${ex.getMessage}"
+        case Failure(exception) =>
+          miningLog ! s"MiningActor $minerName failed to retrieve transactions: ${exception.getMessage}"
       }
 
-    case "Block mined successfully." =>
-      miningLog ! s"Mining completed by $minerName. Reward credited."
-    // Re-enable the mine button or perform other UI-related actions if necessary
-    // This can be handled via messages to the frontend if needed
-
     case _ =>
-      // Handle other unknown messages gracefully
-      log.warning(s"MiningActor $minerName received an unknown message: ${sender().path}")
+      miningLog ! s"MiningActor $minerName received unknown message."
   }
 }
 
@@ -73,6 +57,5 @@ object MiningActor {
              minerReward: Double,
              minerName: String,
              miningLog: ActorRef
-           ): Props =
-    Props(new MiningActor(transactionManager, blockchainActor, difficulty, minerReward, minerName, miningLog))
+           ): Props = Props(new MiningActor(transactionManager, blockchainActor, difficulty, minerReward, minerName, miningLog))
 }
