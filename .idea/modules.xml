@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/akka_intro.iml" filepath="$PROJECT_DIR$/.idea/modules/akka_intro.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/akka_intro.akka_intro-build.iml" filepath="$PROJECT_DIR$/.idea/modules/akka_intro.akka_intro-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bitcoin-scala.iml" filepath="$PROJECT_DIR$/.idea/modules/bitcoin-scala.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bitcoin-scala.bitcoin-scala-build.iml" filepath="$PROJECT_DIR$/.idea/modules/bitcoin-scala.bitcoin-scala-build.iml" />
     </modules>
   </component>
 </project>

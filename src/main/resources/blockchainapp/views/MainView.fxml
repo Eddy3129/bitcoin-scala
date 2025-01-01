@@ -1,46 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="blockchainapp.controllers.MainController">
+<AnchorPane maxHeight="565.0" maxWidth="1.7976931348623157E308" prefHeight="565.0" prefWidth="950.0" styleClass="backgroundImage" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="blockchainapp.controllers.MainController">
     <children>
-        <!-- Username Field and Create Account Button -->
-        <Label layoutX="20.0" layoutY="20.0" text="Username:" />
-        <TextField fx:id="usernameField" layoutX="100.0" layoutY="16.0" prefWidth="150.0" />
-        <Button fx:id="createAccountButton" layoutX="270.0" layoutY="16.0" text="Create Account" />
-
-        <!-- Transaction Section -->
-        <Label layoutX="20.0" layoutY="60.0" text="Sender:" />
-        <ComboBox fx:id="senderComboBox" layoutX="100.0" layoutY="56.0" prefWidth="150.0" />
-        <Label layoutX="270.0" layoutY="60.0" text="Recipient:" />
-        <ComboBox fx:id="recipientComboBox" layoutX="350.0" layoutY="56.0" prefWidth="150.0" />
-        <Label layoutX="520.0" layoutY="60.0" text="Amount:" />
-        <TextField fx:id="amountField" layoutX="580.0" layoutY="56.0" prefWidth="100.0" />
-        <Button fx:id="addButton" layoutX="700.0" layoutY="56.0" text="Add Transaction" />
-
-        <!-- Action Buttons -->
-        <Button fx:id="mineButton" layoutX="20.0" layoutY="100.0" text="Mine" />
-        <Button fx:id="simulateAttackButton" layoutX="100.0" layoutY="100.0" text="Simulate Attack" />
-        <Button fx:id="startMinerButton" layoutX="220.0" layoutY="100.0" text="Start New Miner" />
-
-        <!-- Status Label -->
-        <Label fx:id="statusLabel" layoutX="20.0" layoutY="140.0" text="Status: Idle" />
-
-        <!-- ListViews -->
-        <Label layoutX="20.0" layoutY="180.0" text="Mempool:" />
-        <ListView fx:id="mempoolListView" layoutX="20.0" layoutY="200.0" prefHeight="150.0" prefWidth="300.0" />
-
-        <Label layoutX="350.0" layoutY="180.0" text="Blockchain:" />
-        <ListView fx:id="blockchainListView" layoutX="350.0" layoutY="200.0" prefHeight="150.0" prefWidth="300.0" />
-
-        <Label layoutX="20.0" layoutY="380.0" text="Accounts:" />
-        <ListView fx:id="accountsListView" layoutX="20.0" layoutY="400.0" prefHeight="150.0" prefWidth="300.0" />
-
-        <Label layoutX="350.0" layoutY="380.0" text="Validation Logs:" />
-        <ListView fx:id="validationListView" layoutX="350.0" layoutY="400.0" prefHeight="150.0" prefWidth="300.0" />
-
-        <Label layoutX="700.0" layoutY="180.0" text="Mining Logs:" />
-        <ListView fx:id="miningListView" layoutX="700.0" layoutY="200.0" prefHeight="350.0" prefWidth="250.0" />
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="950.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fill="#c9f032" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Bitcoin Simulator">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#c9f032" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="with AKKA">
+                           <VBox.margin>
+                              <Insets top="-10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="950.0" prefHeight="40.0" prefWidth="950.0">
+               <children>
+                    <!-- Username Field and Create Account Button -->
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label1" text="Username:">
+                     <opaqueInsets>
+                        <Insets right="100.0" />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                    <TextField fx:id="usernameField" prefHeight="4.0" prefWidth="150.0" promptText="Username" styleClass="fills">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                    <Button fx:id="createAccountButton" text="Create Account">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="950.0" prefHeight="40.0" prefWidth="950.0">
+               <children>
+            
+                                      <!-- Transaction Section -->
+                    <Label styleClass="label1" text="Sender:">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                    <ComboBox fx:id="senderComboBox" prefWidth="150.0" styleClass="fills">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                    <Label styleClass="label1" text="Recipient:">
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                    <ComboBox fx:id="recipientComboBox" prefWidth="150.0" styleClass="fills">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                    <Label styleClass="label1" text="Amount:">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Label>
+                    <TextField fx:id="amountField" prefHeight="23.0" prefWidth="57.0" styleClass="fills">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Text fill="#e2e2e2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label1" text="BTC">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Text>
+                    <Button fx:id="addButton" text="Add Transaction">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="950.0" prefHeight="40.0" prefWidth="950.0">
+               <children>
+            
+                                      <!-- Action Buttons -->
+                    <Button fx:id="mineButton" text="Mine">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                    <Button fx:id="simulateAttackButton" text="Simulate Attack">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+                    <Button fx:id="startMinerButton" text="Start New Miner">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="20.0">
+               <children>
+            
+                                <!-- Status Label -->
+                    <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="label3" text="Status: Idle" textFill="#c9f032" />
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <VBox prefHeight="320.0" prefWidth="316.0">
+                     <children>
+                  
+                                      <!-- ListViews -->
+                          <Label styleClass="label2" text="Mempool:">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                          <ListView fx:id="mempoolListView" prefHeight="150.0" prefWidth="231.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ListView>
+                  
+                                      <Label styleClass="label2" text="Accounts:">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                          <ListView fx:id="accountsListView" prefHeight="150.0" prefWidth="300.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="320.0" prefWidth="316.0">
+                     <children>
+                  
+                                      <Label styleClass="label2" text="Blockchain:" />
+                          <ListView fx:id="blockchainListView" prefHeight="150.0" prefWidth="300.0" />
+                  
+                                      <Label styleClass="label2" text="Validation Logs:">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                          <ListView fx:id="validationListView" prefHeight="150.0" prefWidth="300.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="320.0" prefWidth="316.0">
+                     <children>
+                  
+                                      <Label styleClass="label2" text="Mining Logs:" />
+                          <ListView fx:id="miningListView" prefWidth="225.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="50.0" right="50.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

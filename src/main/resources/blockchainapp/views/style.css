@@ -1,0 +1,77 @@
+.title {
+    -fx-font-size: 40px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.label1 {
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #e2e2e2;
+}
+
+.label2 {
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #e2e2e2;
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+}
+
+.label3 {
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #c9f032;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.fills {
+    -fx-background-radius: 5;
+    -fx-background-color: #2a2a2a;
+    -fx-font-size: 10px;
+    -fx-text-fill: #d8d8d8;
+}
+
+.button {
+    -fx-background-radius: 5;
+    -fx-background-color: #2a2a2a;
+    -fx-font-size: 12px;
+    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.1), 1, 0.1, 1, 1);
+    -fx-font-style: italic;
+}
+
+.backgroundImage {
+    -fx-background-color: #1d1d1d;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.list-view {
+    -fx-background-color: #2a2a2a;
+    -fx-control-inner-background: #1a1a1a;
+}
+
+.list-cell {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #d8d8d8;
+    -fx-font-size: 12px;
+}
+
+.list-cell:hover {
+    -fx-background-color: #3a3a3a;
+    -fx-text-fill: #c9f032;
+}

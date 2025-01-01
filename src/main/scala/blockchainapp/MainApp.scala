@@ -26,6 +26,7 @@ object MainApp extends JFXApp {
 
   // Load the main application UI
   def showMainApp(): Unit = {
+
     // Use absolute path by starting with '/'
     val resource = getClass.getResource("/blockchainapp/views/MainView.fxml")
     if (resource == null) {
