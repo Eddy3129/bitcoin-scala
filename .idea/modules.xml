@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AKKA_Intro.iml" filepath="$PROJECT_DIR$/.idea/modules/AKKA_Intro.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AKKA_Intro.AKKA_Intro-build.iml" filepath="$PROJECT_DIR$/.idea/modules/AKKA_Intro.AKKA_Intro-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/akka_intro.iml" filepath="$PROJECT_DIR$/.idea/modules/akka_intro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/akka_intro.akka_intro-build.iml" filepath="$PROJECT_DIR$/.idea/modules/akka_intro.akka_intro-build.iml" />
     </modules>
   </component>
 </project>
