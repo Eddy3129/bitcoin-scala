@@ -19,12 +19,12 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Text fill="#c9f032" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Bitcoin Simulator">
+                        <Text fill="#ff9900" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Bitcoin Simulator">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Text>
-                        <Text fill="#c9f032" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="with AKKA">
+                        <Text fill="#ff9900" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="with AKKA">
                            <VBox.margin>
                               <Insets top="-10.0" />
                            </VBox.margin>
@@ -142,10 +142,10 @@
                <children>
             
                                 <!-- Status Label -->
-                    <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="label3" text="Status: Idle" textFill="#c9f032" />
+                    <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="565.0" styleClass="label3" text="Status: Idle" textFill="#c9f032" />
                </children>
                <padding>
-                  <Insets left="50.0" />
+                  <Insets left="50.0" right="50.0" />
                </padding>
             </HBox>
             <HBox alignment="CENTER">

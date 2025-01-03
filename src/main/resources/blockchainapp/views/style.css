@@ -1,7 +1,7 @@
 .title {
     -fx-font-size: 40px;
     -fx-text-alignment: center;
-    -fx-text-fill: #c9f032;
+    -fx-text-fill: #FF9900;
     -fx-font-style: italic;
     -fx-font-weight: bold;
 }
@@ -9,7 +9,7 @@
 .subtitle {
     -fx-font-size: 20px;
     -fx-text-alignment: center;
-    -fx-text-fill: #c9f032;
+    -fx-text-fill: #FF9900;
     -fx-font-style: italic;
     -fx-font-weight: bold;
 }
@@ -31,7 +31,7 @@
 .label3 {
     -fx-font-size: 12px;
     -fx-text-alignment: center;
-    -fx-text-fill: #c9f032;
+    -fx-text-fill: #FF9900;
     -fx-font-style: italic;
     -fx-font-weight: bold;
 }
@@ -73,5 +73,5 @@
 
 .list-cell:hover {
     -fx-background-color: #3a3a3a;
-    -fx-text-fill: #c9f032;
+    -fx-text-fill: #FF9900;
 }
